@@ -3,9 +3,15 @@ package com.global.hr.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+//import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.global.hr.entity.Employee;
@@ -25,6 +31,7 @@ public class EmployeeController {
 		this.employeeRepo = employeeRepo;
 	}
 
+//	@RequestMapping(method = RequestMethod.GET , path = "/count")
 	@GetMapping("/count")
 	public long countEmp() {
 		return employeeRepo.count();
@@ -40,20 +47,28 @@ public class EmployeeController {
 		return employeeRepo.findAll();
 	}
 	
-	@GetMapping("/insert")
-	public Employee addEmp() {
-		
-		return employeeRepo.save(new Employee("insert",2502.3));
+	@PostMapping("")
+	public Employee addEmp(@RequestBody Employee emp) {
+		return employeeRepo.save(emp);
 	}
 	
-	@GetMapping("/update")
-	public Employee updateEmp() {
-		
-		return employeeRepo.save(new Employee(44L,"update",44444.4));
+	@PutMapping("")
+	public Employee updateEmp(@RequestBody Employee emp ) {
+		return employeeRepo.save(emp);
 	}
 	
 	@GetMapping("/filter/{name}")
 	public List<Employee> filter(@PathVariable String name){
 		return employeeRepo.findByName(name);
+	}
+	
+	@GetMapping("/filter")
+	public List<Employee> filterWithSalary(@RequestParam String name,@RequestParam double salary){
+		return employeeRepo.findByNameAndSalary(name,salary);
+	}
+	
+	@DeleteMapping("/{empId}")
+	public void deleteEmp(@PathVariable("empId") Long id ) {
+		 employeeRepo.deleteById(id);
 	}
 }

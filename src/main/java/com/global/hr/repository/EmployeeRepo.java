@@ -10,5 +10,5 @@ import com.global.hr.entity.Employee;
 @Repository
 public interface EmployeeRepo extends CrudRepository<Employee, Long>{
 	public List<Employee> findByName(String name);
-//	public List<Employee> findByNameAndSalary(.....); Wow
+	public List<Employee> findByNameAndSalary(String name, double salary); //Wow
 }
